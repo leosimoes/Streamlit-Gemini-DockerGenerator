@@ -15,11 +15,13 @@ AUTOR = 'Autor: Leonardo Simões'
 INTRODUCAO = '''
 '''
 
-is_docker_compose_generated, is_dockerfile_generated = False, False
-docker_compose_code, docker_compose_descricao = '', ''
-dockerfile_code, dockerfile_descricao = '', ''
+is_docker_compose_generated = False
+is_dockerfile_generated = False
+docker_compose_code = ''
+dockerfile_code = ''
 
 gemini_service = create_gemini_service()
+
 
 def get_botao_de_download(conteudo, nome_arquivo):
     """Gera um link para baixar a string como arquivo"""
@@ -44,18 +46,16 @@ with st.container():
         descricao = st.text_area('Descreva o sistema:', value='')
 
         if st.form_submit_button('Gerar', use_container_width=True):
-            gemini_service.set_descricao(descricao)
+            if gemini_service.verificar_descricao_docker(descricao):
+                gemini_service.set_descricao(descricao)
 
-            if gemini_service.verificar_descricao_docker():
                 if is_docker_composer_checked:
                     gemini_service.gerar_docker_compose()
-                    docker_compose_descricao = gemini_service.get_docker_compose_descricao()
                     docker_compose_code = gemini_service.get_docker_compose_code()
                     is_docker_compose_generated = True
 
                 if is_docker_file_checked:
                     gemini_service.gerar_dockerfile()
-                    dockerfile_descricao = gemini_service.get_dockerfile_descricao()
                     dockerfile_code = gemini_service.get_dockerfile_code()
                     is_dockerfile_generated = True
             else:
@@ -64,11 +64,11 @@ with st.container():
                 st.write('A descrição do sistema que foi fornecida não é válida.')
 
     if is_docker_compose_generated:
-        st.write(docker_compose_descricao)
-        st.code(docker_compose_code)
+        st.write('### docker-compose.yml:')
+        st.code(docker_compose_code, language="yaml")
         st.markdown(get_botao_de_download(docker_compose_code, 'docker-compose.yml'), unsafe_allow_html=True)
 
     if is_dockerfile_generated:
-        st.write(dockerfile_descricao)
-        st.code(dockerfile_code)
+        st.write('### Dockerfile:')
+        st.code(dockerfile_code, language="dockerfile")
         st.markdown(get_botao_de_download(dockerfile_code, 'Dockerfile'), unsafe_allow_html=True)
