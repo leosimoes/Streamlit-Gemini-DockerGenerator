@@ -37,7 +37,7 @@ class GeminiService:
             dockerfile_code = _self._chat.last.text
             dockerfile_code = dockerfile_code.replace('```dockerfile', '')
             dockerfile_code = dockerfile_code.replace('```', '')
-            _self._dockerfile_code = _self._chat.last.text
+            _self._dockerfile_code = dockerfile_code
         else:
             _self._dockerfile_code = 'None'
 
