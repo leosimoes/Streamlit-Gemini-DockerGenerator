@@ -12,8 +12,8 @@ st.set_page_config(page_title='Docker Generator',
 
 TITULO = 'Docker Generator'
 AUTOR = 'Autor: Leonardo Simões'
-INTRODUCAO = '''
-'''
+INTRODUCAO = ('Aplicação Web feita em Python com Streamlit que utiliza o Gemini da Google para criar contéudos para '
+              'os arquivos docker-compose.yml e Dockerfile dada uma descrição do sistema desejado.')
 
 is_docker_compose_generated = False
 is_dockerfile_generated = False
@@ -64,11 +64,15 @@ with st.container():
                 st.write('A descrição do sistema que foi fornecida não é válida.')
 
     if is_docker_compose_generated:
+        st.divider()
         st.write('### docker-compose.yml:')
         st.code(docker_compose_code, language="yaml")
         st.markdown(get_botao_de_download(docker_compose_code, 'docker-compose.yml'), unsafe_allow_html=True)
 
     if is_dockerfile_generated:
+        st.divider()
         st.write('### Dockerfile:')
         st.code(dockerfile_code, language="dockerfile")
         st.markdown(get_botao_de_download(dockerfile_code, 'Dockerfile'), unsafe_allow_html=True)
+
+    st.divider()

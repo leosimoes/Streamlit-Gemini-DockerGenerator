@@ -25,13 +25,18 @@ class GeminiService:
     def gerar_docker_compose(_self):
         if _self._is_descricao_valida:
             _self._chat.send_message(f'DOCKERCOMPOSER:{_self._descricao}')
-            _self._docker_compose_code = _self._chat.last.text
+            docker_compose_code = _self._chat.last.text.replace('```dockerfile', '')
+            docker_compose_code = docker_compose_code.replace('```', '')
+            _self._docker_compose_code = docker_compose_code
         else:
             _self._docker_compose_code = 'None'
 
     def gerar_dockerfile(_self):
         if _self._is_descricao_valida:
             _self._chat.send_message(f'DOCKERFILE:{_self._descricao}')
+            dockerfile_code = _self._chat.last.text
+            dockerfile_code = dockerfile_code.replace('```dockerfile', '')
+            dockerfile_code = dockerfile_code.replace('```', '')
             _self._dockerfile_code = _self._chat.last.text
         else:
             _self._dockerfile_code = 'None'
