@@ -1,4 +1,5 @@
 import google.generativeai as genai
+import streamlit as st
 
 
 def read_api_key():
@@ -9,14 +10,7 @@ def read_api_key():
         return None
 
 
-def read_primeiro_prompt():
-    try:
-        with open('primeiro_pompt.txt', 'r', encoding='utf-8') as arquivo:
-            return arquivo.readline()
-    except FileNotFoundError:
-        return 'Retorne apenas "INVALIDA"'
-
-
+@st.cache_data
 def create_chat():
     genai.configure(api_key=read_api_key())
 
