@@ -54,7 +54,7 @@ with st.container():
 
                 if is_docker_file_checked:
                     dockerfile_descricao = '...'
-                    dockerfile_cod = '...'
+                    dockerfile_code = '...'
                     is_dockerfile_generated = True
             else:
                 is_docker_compose_generated = False
